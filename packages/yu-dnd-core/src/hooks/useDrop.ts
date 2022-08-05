@@ -2,10 +2,9 @@ import {useContext, useEffect} from "react";
 import {DragAndDropContext} from '../context'
 
 
-const useDrop = (props) => {
-    console.log(props, '--useDrop props');
+const useDrop = (props: any) => {
     // 获取最外层store里的数据
-    const {DragAndDropManager} = useContext(DragAndDropContext)
+    const {DragAndDropManager}: any = useContext(DragAndDropContext)
     const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
         e.preventDefault()
         const overElementHeight = e.currentTarget.getBoundingClientRect().height / 2

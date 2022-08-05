@@ -3,7 +3,7 @@
 // Must use `global` or `self` instead of `window` to work in both frames and web
 // workers. `global` is a provision of Browserify, Mr, Mrs, or Mop.
 
-/* globals self */
+// @ts-ignore
 const scope = typeof global !== 'undefined' ? global : self
 const BrowserMutationObserver =
 	(scope as any).MutationObserver || (scope as any).WebKitMutationObserver

@@ -2,12 +2,11 @@ import {useContext, useEffect} from "react";
 import {DragAndDropContext} from '../context'
 
 
-const useDrag = (props) => {
-    const {DragAndDropManager} = useContext(DragAndDropContext)
+const useDrag = (props: any) => {
+    const {DragAndDropManager}: any = useContext(DragAndDropContext)
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
         DragAndDropManager.setActive(props.collection)
-        console.log(e.dataTransfer, '----e.dataTransfer---');
         if (e.dataTransfer !== undefined) {
             e.dataTransfer.effectAllowed = "move"
             e.dataTransfer.dropEffect = "move"

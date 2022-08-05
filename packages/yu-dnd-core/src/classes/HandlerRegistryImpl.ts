@@ -1,6 +1,6 @@
-import { asap } from '../asap'
-import { invariant } from '../utils/invariant'
-import type { Store } from 'redux'
+import {asap} from '../asap'
+import {invariant} from '../utils/invariant'
+import type {Store} from 'redux'
 
 import {
     addSource,
@@ -13,7 +13,7 @@ import {
     validateTargetContract,
     validateType,
 } from '../utils/contracts'
-import { getNextUniqueId } from '../utils/getNextUniqueId'
+import {getNextUniqueId} from '../utils/getNextUniqueId'
 import type {
     DragSource,
     DropTarget,
@@ -22,8 +22,8 @@ import type {
     SourceType,
     TargetType,
 } from '../interfaces'
-import { HandlerRole } from '../interfaces'
-import type { State } from '../reducers/index'
+import {HandlerRole} from '../interfaces'
+import type {State} from '../reducers/index'
 
 function getNextHandlerId(role: HandlerRole): string {
     const id = getNextUniqueId().toString()

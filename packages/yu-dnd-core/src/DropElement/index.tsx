@@ -6,6 +6,7 @@ const DropElement = (props: any) => {
     useDrop({
         ref: input,
         // showAfter是表示，是否鼠标拖拽元素时，鼠标经过drop元素的上方（上方就是上半边，下方就是下半边）
+        // @ts-ignore
         onDragOver: (e: React.DragEvent<HTMLDivElement>, collection, showAfter) => {
             // console.log(collection, '--collection--');
             // 如果经过上半边，drop元素的上边框就是红色
