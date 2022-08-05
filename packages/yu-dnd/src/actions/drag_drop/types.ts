@@ -1,0 +1,6 @@
+export const INIT_COORDS = 'INIT_COORDS'
+export const BEGIN_DRAG = 'BEGIN_DRAG'
+export const PUBLISH_DRAG_SOURCE = 'PUBLISH_DRAG_SOURCE'
+export const HOVER = 'HOVER'
+export const DROP = 'DROP'
+export const END_DRAG = 'END_DRAG'

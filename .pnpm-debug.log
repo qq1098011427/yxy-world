@@ -1,0 +1,41 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 debug pnpm:package-manifest": {
+    "initial": {},
+    "prefix": "/Users/yexueyu/wheel-project/yxy-world"
+  },
+  "2 debug pnpm:context": {
+    "currentLockfileExists": false,
+    "storeDir": "/Users/yexueyu/.pnpm-store/v3",
+    "virtualStoreDir": "/Users/yexueyu/wheel-project/yxy-world/node_modules/.pnpm"
+  },
+  "3 debug pnpm:stage": {
+    "prefix": "/Users/yexueyu/wheel-project/yxy-world",
+    "stage": "resolution_started"
+  },
+  "4 error pnpm": {
+    "code": "ERR_PNPM_FETCH_404",
+    "hint": "@changeset/cli is not in the npm registry, or you have no permission to fetch it.\n\nNo authorization header was set for the request.",
+    "request": {
+      "url": "http://registry.npm.taobao.org/@changeset%2Fcli"
+    },
+    "response": {
+      "size": 0
+    },
+    "pkgName": "@changeset/cli",
+    "spec": {
+      "fetchSpec": "latest",
+      "name": "@changeset/cli",
+      "type": "tag"
+    },
+    "pkgsStack": [],
+    "err": {
+      "name": "pnpm",
+      "message": "GET http://registry.npm.taobao.org/@changeset%2Fcli: Not Found - 404",
+      "code": "ERR_PNPM_FETCH_404",
+      "stack": "pnpm: GET http://registry.npm.taobao.org/@changeset%2Fcli: Not Found - 404\n    at RetryOperation._fn (/usr/local/lib/node_modules/pnpm/dist/pnpm.cjs:85463:19)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)"
+    }
+  }
+}
