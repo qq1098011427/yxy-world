@@ -11,13 +11,18 @@ export default defineConfig({
     },
     plugins: [react()],
     build: {
+        watch: {},
         lib: {
             entry: path.resolve(__dirname, './src/index.ts'),
             formats: ['es'],
             name: 'yu-dnd-core',
             // the proper extensions will be added
             fileName: 'yu-dnd-core'
-        }
-    }
+        },
+        // watch: {
+        //     exclude: 'node_modules/**',
+        //     include: './src/**'
+        // }
+    },
 })
 

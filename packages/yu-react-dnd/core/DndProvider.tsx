@@ -1,5 +1,5 @@
-import type { BackendFactory, DragDropManager } from 'dnd-core'
-import { createDragDropManager } from 'dnd-core'
+import type { BackendFactory, DragDropManager } from 'yu-dnd-core'
+import { createDragDropManager } from 'yu-dnd-core'
 import type { FC, ReactNode } from 'react'
 import { memo, useEffect } from 'react'
 
@@ -19,18 +19,17 @@ export type DndProviderProps<BackendContext, BackendOptions> =
 	  }
 
 let refCount = 0
+// @ts-ignore
 const INSTANCE_SYM = Symbol.for('__REACT_DND_CONTEXT_INSTANCE__')
 
 /**
- * A React component that provides the React-DnD context
+ * 提供React- dnd上下文的React组件
  */
 export const DndProvider: FC<DndProviderProps<unknown, unknown>> = memo(
 	function DndProvider({ children, ...props }) {
 		const [manager, isGlobalInstance] = getDndContextValue(props) // memoized from props
 		/**
-		 * If the global context was used to store the DND context
-		 * then where theres no more references to it we should
-		 * clean it up to avoid memory leaks
+         * 如果全局上下文被用于存储DND上下文 如果没有更多的参考，我们应该清理它，以避免内存泄漏
 		 */
 		useEffect(() => {
 			if (isGlobalInstance) {

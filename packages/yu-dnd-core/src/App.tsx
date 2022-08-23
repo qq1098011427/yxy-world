@@ -9,6 +9,7 @@ function App() {
           <DropElement></DropElement>
           <DragElement></DragElement>
           <DropElement></DropElement>
+          <div>1</div>
       </DragAndDrop>
   )
 }

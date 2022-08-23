@@ -8,7 +8,7 @@ export interface DragPreviewImageProps {
 	src: string
 }
 /**
- * A utility for rendering a drag preview image
+ * 一个用于呈现拖动预览图像的实用程序
  */
 export const DragPreviewImage: FC<DragPreviewImageProps> = memo(
 	function DragPreviewImage({ connect, src }) {

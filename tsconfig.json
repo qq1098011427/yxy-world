@@ -34,7 +34,7 @@
     "baseUrl": "./packages",
     // "useDefineForClassFields": true,
     "paths": {
-      "yxy-world-*": ["./*/src"]
+      "yu-*": ["./*/src"]
       // "packages/*": ["./packages/*"]
     },
     "outDir": "lib"

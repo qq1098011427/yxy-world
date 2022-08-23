@@ -28,7 +28,7 @@ const DropElement = (props: any) => {
     })
     return (
         <div>
-            <h1 ref={input}>drop元素</h1>
+            <h1 ref={input}>drop元素4</h1>
         </div>
     )
 }

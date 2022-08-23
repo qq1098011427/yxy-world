@@ -3,9 +3,12 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "./src/index.js",
+  "module": "./dist/yu-dnd-core.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:watch": "pnpm run build -w",
     "preview": "vite preview"
   },
   "dependencies": {
