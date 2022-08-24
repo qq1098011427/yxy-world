@@ -8,7 +8,7 @@ import type {
 	XYCoord,
 } from 'yu-dnd-core'
 
-import type { DragSourceMonitor } from '../types/index.js'
+import type { DragSourceMonitor } from '../types/index'
 
 let isCallingCanDrag = false
 let isCallingIsDragging = false

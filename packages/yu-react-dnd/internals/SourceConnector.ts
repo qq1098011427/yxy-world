@@ -2,9 +2,9 @@ import { shallowEqual } from 'yu-dnd-core'
 import type { Backend, Identifier, Unsubscribe } from 'yu-dnd-core'
 import type { ReactElement, Ref, RefObject } from 'react'
 
-import type { DragPreviewOptions, DragSourceOptions } from '../types/index.js'
-import { isRef } from './isRef.js'
-import { wrapConnectorHooks } from './wrapConnectorHooks.js'
+import type { DragPreviewOptions, DragSourceOptions } from '../types/index'
+import { isRef } from './isRef'
+import { wrapConnectorHooks } from './wrapConnectorHooks'
 
 export interface Connector {
 	hooks: any
