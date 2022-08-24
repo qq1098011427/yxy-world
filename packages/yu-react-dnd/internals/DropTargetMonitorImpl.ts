@@ -8,7 +8,7 @@ import type {
 	XYCoord,
 } from 'yu-dnd-core'
 
-import type { DropTargetMonitor } from '../types/index.js'
+import type { DropTargetMonitor } from '../types/index'
 
 let isCallingCanDrop = false
 
