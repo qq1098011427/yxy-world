@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import {useLayoutEffect, useMemo} from 'react'
 
 import { TargetConnector } from '../../internals/index.js'
 import type { DropTargetOptions } from '../../types/index.js'
@@ -13,7 +13,7 @@ export function useDropTargetConnector(
 		() => new TargetConnector(manager.getBackend()),
 		[manager],
 	)
-	useIsomorphicLayoutEffect(() => {
+    useLayoutEffect(() => {
 		connector.dropTargetOptions = options || null
 		connector.reconnect()
 		return () => connector.disconnectDropTarget()

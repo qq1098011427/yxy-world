@@ -6,6 +6,7 @@ import { useDragDropManager } from '../useDragDropManager.js'
 import { useIsomorphicLayoutEffect } from '../useIsomorphicLayoutEffect.js'
 import { useAccept } from './useAccept.js'
 import { useDropTarget } from './useDropTarget.js'
+import {useLayoutEffect} from "react";
 
 export function useRegisteredDropTarget<O, R, P>(
 	spec: DropTargetHookSpec<O, R, P>,
@@ -16,7 +17,7 @@ export function useRegisteredDropTarget<O, R, P>(
 	const dropTarget = useDropTarget(spec, monitor)
 	const accept = useAccept(spec)
 
-	useIsomorphicLayoutEffect(
+    useLayoutEffect(
 		function registerDropTarget() {
 			const [handlerId, unregister] = registerTarget(
 				accept,

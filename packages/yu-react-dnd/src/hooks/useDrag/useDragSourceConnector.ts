@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import {useLayoutEffect, useMemo} from 'react'
 
 import { SourceConnector } from '../../internals/index'
 import type {
@@ -17,12 +17,12 @@ export function useDragSourceConnector(
 		() => new SourceConnector(manager.getBackend()),
 		[manager],
 	)
-	useIsomorphicLayoutEffect(() => {
+    useLayoutEffect(() => {
 		connector.dragSourceOptions = dragSourceOptions || null
 		connector.reconnect()
 		return () => connector.disconnectDragSource()
 	}, [connector, dragSourceOptions])
-	useIsomorphicLayoutEffect(() => {
+    useLayoutEffect(() => {
 		connector.dragPreviewOptions = dragPreviewOptions || null
 		connector.reconnect()
 		return () => connector.disconnectDragPreview()

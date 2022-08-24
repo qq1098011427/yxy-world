@@ -16,18 +16,9 @@ export default defineConfig({
         lib: {
             entry: path.resolve(__dirname, './src/index.ts'),
             formats: ['es'],
-            name: 'yu-react-dnd',
-            fileName: 'yu-react-dnd'
+            name: 'yu-dnd-html5-backend',
+            fileName: 'yu-dnd-html5-backend'
         },
-        // rollupOptions: {
-        //     output: [{
-        //         format: 'es',
-        //         entryFileNames: '[name].js',
-        //         preserveModules: true,
-        //         dir: 'lib',
-        //         preserveModulesRoot: 'src'
-        //     }]
-        // }
         rollupOptions: {
             // 确保外部化处理那些你不想打包进库的依赖
             external: [
@@ -37,5 +28,6 @@ export default defineConfig({
             output: {}
         }
     },
+
 })
 

@@ -1,6 +1,6 @@
 // @ts-ignore
 import equal from 'fast-deep-equal'
-import { useCallback, useState } from 'react'
+import {useCallback, useLayoutEffect, useState} from 'react'
 
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 
@@ -32,7 +32,7 @@ export function useCollector<T, S>(
 	// update the collected properties after react renders.
 	// Note that the "Dustbin Stress Test" fails if this is not
 	// done when the component updates
-	useIsomorphicLayoutEffect(updateCollected)
+    useLayoutEffect(updateCollected)
 
 	return [collected, updateCollected]
 }

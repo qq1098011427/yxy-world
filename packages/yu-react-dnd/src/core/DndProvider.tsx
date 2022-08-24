@@ -1,7 +1,7 @@
 import type { BackendFactory, DragDropManager } from 'yu-dnd-core'
 import { createDragDropManager } from 'yu-dnd-core'
 import type { FC, ReactNode } from 'react'
-import { memo, useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 
 import { DndContext } from './DndContext.js'
 
@@ -31,7 +31,10 @@ export const DndProvider: FC<DndProviderProps<unknown, unknown>> = memo(
 		/**
          * 如果全局上下文被用于存储DND上下文 如果没有更多的参考，我们应该清理它，以避免内存泄漏
 		 */
-		useEffect(() => {
+
+        console.log(useEffect, '----useEffect----')
+        useEffect && useEffect(() => {
+            console.log(1111)
 			if (isGlobalInstance) {
 				const context = getGlobalContext()
 				++refCount

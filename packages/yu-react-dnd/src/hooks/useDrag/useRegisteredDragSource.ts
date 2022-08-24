@@ -6,6 +6,7 @@ import { useDragDropManager } from '../useDragDropManager'
 import { useIsomorphicLayoutEffect } from '../useIsomorphicLayoutEffect'
 import { useDragSource } from './useDragSource'
 import { useDragType } from './useDragType'
+import {useLayoutEffect} from "react";
 
 export function useRegisteredDragSource<O, R, P>(
 	spec: DragSourceHookSpec<O, R, P>,
@@ -16,7 +17,7 @@ export function useRegisteredDragSource<O, R, P>(
 	const handler = useDragSource(spec, monitor, connector)
 	const itemType = useDragType(spec)
 
-	useIsomorphicLayoutEffect(
+    useLayoutEffect(
 		function registerDragSource() {
 			if (itemType != null) {
 				const [handlerId, unregister] = registerSource(
