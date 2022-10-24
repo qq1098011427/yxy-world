@@ -63,7 +63,8 @@ export class HTML5BackendImpl implements Backend {
 	) {
 		this.options = new OptionsReader(globalContext, options)
 		this.actions = manager.getActions()
-		this.monitor = manager.getMonitor()
+        // debugger
+        this.monitor = manager.getMonitor()
 		this.registry = manager.getRegistry()
 		this.enterLeaveCounter = new EnterLeaveCounter(this.isNodeInDocument)
 	}
@@ -461,7 +462,7 @@ export class HTML5BackendImpl implements Backend {
 			this.cancelHover()
 		}
 
-		// Don't publish the source just yet (see why below)
+        // 现在不要发布源代码(原因如下)
 		this.actions.beginDrag(dragStartSourceIds || [], {
 			publishSource: false,
 			getSourceClientOffset: this.getSourceClientOffset,
@@ -473,9 +474,9 @@ export class HTML5BackendImpl implements Backend {
 
 		if (this.monitor.isDragging()) {
 			if (dataTransfer && typeof dataTransfer.setDragImage === 'function') {
-				// Use custom drag image if user specifies it.
-				// If child drag source refuses drag but parent agrees,
-				// use parent's node as drag image. Neither works in IE though.
+                // 如果用户指定，使用自定义拖动图像。
+                // 如果子拖放源拒绝拖放但父拖放同意。
+                // 使用父节点作为拖动图像。但这两种方法都不能在IE中使用。
 				const sourceId: string = this.monitor.getSourceId() as string
 				const sourceNode = this.sourceNodes.get(sourceId)
 				const dragPreview = this.sourcePreviewNodes.get(sourceId) || sourceNode

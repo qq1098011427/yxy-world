@@ -19,6 +19,7 @@ export const createDragDropManager = (
     const manager = new DragDropManagerImpl(store, monitor)
     const backend = backendFactory(manager, globalContext, backendOptions)
     manager.receiveBackend(backend)
+    console.log(manager, '===manager===')
     return manager
 }
 

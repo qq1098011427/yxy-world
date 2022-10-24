@@ -1,23 +1,24 @@
 {
-  "name": "yu-dnd-html5-backend",
+  "name": "demo",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "main": "./src/index.ts",
-  "module": "./dist/yu-dnd-html5-backend.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "yu-dnd-core": "workspace:*"
+    "yu-dnd-core": "workspace:*",
+    "yu-dnd-html5-backend": "workspace:*",
+    "yu-react-dnd": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@types/node": "^18.7.13",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.1",

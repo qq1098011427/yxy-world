@@ -28,30 +28,27 @@ const INSTANCE_SYM = Symbol.for('__REACT_DND_CONTEXT_INSTANCE__')
 export const DndProvider: FC<DndProviderProps<unknown, unknown>> = memo(
 	function DndProvider({ children, ...props }) {
 		const [manager, isGlobalInstance] = getDndContextValue(props) // memoized from props
-		/**
-         * 如果全局上下文被用于存储DND上下文 如果没有更多的参考，我们应该清理它，以避免内存泄漏
-		 */
-
-        console.log(useEffect, '----useEffect----')
-        useEffect && useEffect(() => {
-            console.log(1111)
-			if (isGlobalInstance) {
-				const context = getGlobalContext()
-				++refCount
-
-				return () => {
-					if (--refCount === 0) {
-						context[INSTANCE_SYM] = null
-					}
-				}
-			}
-			return
-		}, [])
-
 		return <DndContext.Provider value={manager}>{children}</DndContext.Provider>
 	},
 )
-
+// /**
+//  * 如果全局上下文被用于存储DND上下文 如果没有更多的参考，我们应该清理它，以避免内存泄漏
+//  */
+//
+// console.log(useEffect, '----useEffect----')
+// useEffect && useEffect(() => {
+//     if (isGlobalInstance) {
+//         const context = getGlobalContext()
+//         ++refCount
+//
+//         return () => {
+//             if (--refCount === 0) {
+//                 context[INSTANCE_SYM] = null
+//             }
+//         }
+//     }
+//     return
+// }, [])
 function getDndContextValue(props: DndProviderProps<unknown, unknown>) {
 	if ('manager' in props) {
 		const manager = { dragDropManager: props.manager }
@@ -77,6 +74,7 @@ function createSingletonDndContext<BackendContext, BackendOptions>(
 ) {
 	const ctx = context as any
 	if (!ctx[INSTANCE_SYM]) {
+        console.log(backend, '---backend--')
 		ctx[INSTANCE_SYM] = {
 			dragDropManager: createDragDropManager(
 				backend,

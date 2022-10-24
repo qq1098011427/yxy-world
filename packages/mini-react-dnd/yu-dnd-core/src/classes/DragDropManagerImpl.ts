@@ -61,7 +61,7 @@ export default class DragDropManagerImpl implements DragDropManager {
                 }
             }
         }
-        const actions = {} || createDragDropActions(this)
+        const actions = createDragDropActions(this)
         return Object.keys(actions).reduce((
             boundActions: DragDropActions, key: string
         ) => {
