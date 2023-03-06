@@ -1,0 +1,86 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+
+defineProps<{ msg: string }>()
+
+const content = ref('')
+const save = () => {
+  // 将规则保存到 chrome.storage.local 中
+  console.log(chrome, '--chrome--')
+  chrome.storage.local.set({ rules: content.value })
+}
+const load = () => {
+  // 从 chrome.storage.local.get 中加载规则
+  chrome.storage.local.get('rules', (result: any) => {
+    content.value = result.rules
+  })
+}
+// 获取当前光标所在行的开始/结束位置
+const getLoc = (pos: number, value: string) => {
+  let start = pos;
+  while (start > 0 && value[start - 1] !== '\n') {
+    start--;
+  }
+  let end = pos;
+  while (end < value.length && value[end] !== '\n') {
+    end++;
+  }
+  return {
+    start,
+    end
+  };
+}
+const handleKeyDown = (event: EventTarget | KeyboardEvent) => {
+  if ((event as KeyboardEvent).metaKey && (event as KeyboardEvent).key === '/') {
+    (event as KeyboardEvent).preventDefault();
+    const textarea = (event as any).target;
+    let prevEnd = textarea.selectionEnd;
+    const { start, end } = getLoc(textarea.selectionEnd, textarea.value)
+    const currentLineText = textarea.value.substring(start, end);
+    let updatedLineText = '';
+    if (currentLineText.startsWith('# ')) {
+      updatedLineText = currentLineText.substring(2);
+      prevEnd -= 2;
+    } else {
+      updatedLineText = `# ${currentLineText}`;
+      prevEnd += 2;
+    }
+    const updatedCode = `${textarea.value.substring(0, start)}${updatedLineText}${textarea.value.substring(start + currentLineText.length)}`;
+    content.value = updatedCode;
+    // 设置焦点位置
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(prevEnd, prevEnd);
+    }, 0);
+  }
+}
+</script>
+
+<template>
+  <div>
+    <!-- textarea theme is dark-->
+    <textarea
+      v-model="content"
+      class="textarea"
+      placeholder="请输入内容"
+      rows="10"
+      cols="30"
+      @keydown="handleKeyDown"
+    ></textarea>
+    <div>
+      <button @click="save">保存</button>
+      <button @click="load">加载</button>
+    </div>
+  </div>
+</template>
+
+<style lang="less" scoped>
+.textarea {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  padding: 4px;
+  width: 900px;
+}
+</style>
