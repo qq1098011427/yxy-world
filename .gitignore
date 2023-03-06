@@ -12,6 +12,7 @@ yarn.lock
 deploy-space/packages
 deploy-space/.env
 *node_modules
+node_modules
 
 # IDE
 .vscode
