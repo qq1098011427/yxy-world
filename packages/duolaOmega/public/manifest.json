@@ -12,7 +12,8 @@
     "tabs",
     "storage",
     "activeTab",
-    "scripting"
+    "scripting",
+    "declarativeNetRequest"
   ],
   "background": {
     "service_worker": "background.js"
@@ -23,6 +24,8 @@
       "32": "icons/icon.png",
       "48": "icons/icon.png",
       "128": "icons/icon.png"
-    }
+    },
+    "default_title": "duolaOmega panel",
+    "default_popup": "index.html"
   }
 }

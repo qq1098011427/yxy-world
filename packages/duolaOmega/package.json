@@ -6,12 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build:watch": "pnpm run build -w",
     "preview": "vite preview"
   },
-  "dependencies": {
-    "vue": "^3.2.45"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "@types/node": "^18.14.6",
+    "vue": "^3.2.47",
     "@types/chrome": "^0.0.193",
     "@vitejs/plugin-vue": "^4.0.0",
     "less": "^3",

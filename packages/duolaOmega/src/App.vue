@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import Panel from './components/Panel.vue'
+import ViewEditor from './components/ViewEditor.vue'
 </script>
 
 <template>
   <div>
-    111
+<!--    <Panel /> -->
+    <ViewEditor />
   </div>
-  <Panel />
 </template>
 
 <style scoped>

@@ -11,20 +11,22 @@ importers:
   packages/duolaOmega:
     specifiers:
       '@types/chrome': ^0.0.193
+      '@types/node': ^18.14.6
       '@vitejs/plugin-vue': ^4.0.0
       less: ^3
       typescript: ^4.9.3
       vite: ^4.1.0
-      vue: ^3.2.45
+      vue: ^3.2.47
       vue-tsc: ^1.0.24
     dependencies:
+      '@types/node': 18.14.6
       vue: 3.2.47
     devDependencies:
       '@types/chrome': 0.0.193
       '@vitejs/plugin-vue': 4.0.0_vite@4.1.4+vue@3.2.47
       less: 3.13.1
       typescript: 4.9.5
-      vite: 4.1.4_less@3.13.1
+      vite: 4.1.4_viheytchy3b6whfqmshz6niosq
       vue-tsc: 1.2.0_typescript@4.9.5
 
   packages/mini-chrome-tools/redirect-resources:
@@ -444,6 +446,9 @@ packages:
     resolution: {integrity: sha512-rffW6MhQ9yoa75bdNi+rjZBAvu2HhehWJXlhuWXnWdENeuKe82wUgAwxYOb7KRKKmxYN+D/iRKd2NDQMLqlUmg==}
     dev: true
 
+  /@types/node/18.14.6:
+    resolution: {integrity: sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==}
+
   /@vitejs/plugin-vue/4.0.0_vite@4.1.4+vue@3.2.47:
     resolution: {integrity: sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -451,7 +456,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.1.4_less@3.13.1
+      vite: 4.1.4_viheytchy3b6whfqmshz6niosq
       vue: 3.2.47
     dev: true
 
@@ -1181,7 +1186,7 @@ packages:
     hasBin: true
     dev: true
 
-  /vite/4.1.4_less@3.13.1:
+  /vite/4.1.4_viheytchy3b6whfqmshz6niosq:
     resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1206,6 +1211,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 18.14.6
       esbuild: 0.16.17
       less: 3.13.1
       postcss: 8.4.21
