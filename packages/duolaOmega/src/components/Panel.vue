@@ -43,7 +43,6 @@ const handleKeyDown = (event: EventTarget | KeyboardEvent) => {
   if ((event as KeyboardEvent).metaKey && (event as KeyboardEvent).key === '/') {
     (event as KeyboardEvent).preventDefault();
     const textarea = (event as any).target;
-    console.log(textarea, '--textarea ooo-');
     let prevEnd = textarea.selectionEnd;
     const { start, end } = getLoc(textarea.selectionEnd, textarea.value)
     const currentLineText = textarea.value.substring(start, end);
