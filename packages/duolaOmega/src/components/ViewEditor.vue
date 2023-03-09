@@ -16,7 +16,7 @@ const handleClick = () => {
   // 'http://www.baidu.com http://locahost:8080\n# http://www.xxx.com http://locahost:8081\n'
   // -> [{ source: 'http://www.baidu.com', target: 'http://locahost:8080' }, ...]
   const rules = content.value.split('\n').map((item: string) => {
-    const [source, target] = item.split(' ');
+    const [source, target] = item.trim().split(/\s+/g)
     return {
       source,
       target

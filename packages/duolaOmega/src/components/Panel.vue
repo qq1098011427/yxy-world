@@ -71,57 +71,19 @@ const handleKeyDown = (event: EventTarget | KeyboardEvent) => {
 const handleBlur = () => {
   saveAndApplyRules(content.value);
 }
-const handleKeyDown1 = (event: EventTarget | KeyboardEvent) => {
-  // if ((event as KeyboardEvent).metaKey && (event as KeyboardEvent).key === '/') {
-  //   (event as KeyboardEvent).preventDefault();
-  //   // 获取当前光标所在行
-  //   const selection: any = window.getSelection();
-  //   const range = selection.getRangeAt(0);
-  //   const currentLine = range.startContainer.parentNode;
-  //   // 获取当前行在文本框中的索引
-  //   const index = [...currentLine.parentNode.children].indexOf(currentLine);
-  //   // 在当前行前面添加 # ，并更新内容
-  //   const lineText = currentLine.innerText;
-  //   console.log(lineText, '--lineText--')
-  //   const updatedLineText = lineText.startsWith('#')
-  //       ? lineText.substring(2)
-  //       : `# ${lineText}`;
-  //   console.log(index, '--index--')
-  //   content.value.splice(index, 1, updatedLineText);
-  //   console.log(content.value, '---content.value---')
-  // }
-  // if ((event as KeyboardEvent).metaKey && (event as KeyboardEvent).key === 's') {
-  //   (event as KeyboardEvent).preventDefault();
-  //   saveAndApplyRules(content.value);
-  // }
-}
-const handleInput = (e: any) => {
-  // if (e.target.querySelector('.line')) return
-  // e.preventDefault();
-  // e.target.innerHTML = `<div class="line">${e.target.innerHTML}</div>`
-  // e.target.querySelector('.line').focus();
-}
 </script>
 
 <template>
   <div>
-<!--    <textarea-->
-<!--      v-model="content"-->
-<!--      class="textarea"-->
-<!--      placeholder="请输入内容"-->
-<!--      rows="10"-->
-<!--      cols="30"-->
-<!--      @blur="handleBlur"-->
-<!--      @keydown="handleKeyDown"-->
-<!--    ></textarea>-->
-    <div
-        ref="textarea"
-        class="textarea"
-        @blur="handleBlur"
-        @keydown="handleKeyDown1"
-        @input="handleInput"
-        contenteditable="true">
-    </div>
+    <textarea
+      v-model="content"
+      class="textarea"
+      placeholder="请输入内容"
+      rows="10"
+      cols="30"
+      @blur="handleBlur"
+      @keydown="handleKeyDown"
+    ></textarea>
   </div>
 </template>
 
