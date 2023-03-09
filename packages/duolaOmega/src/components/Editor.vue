@@ -33,6 +33,11 @@ const handleInput = () => {
     if (item.nodeType === 3) { // 文本节点
       const div = document.createElement('div')
       div.innerHTML = item.textContent
+      if (/^#\s?/.test(item.textContent)) {
+        div.classList.add('rule-comment')
+      } else {
+        div.removeAttribute('class')
+      }
       item.replaceWith(div)
       // 由于替换了文本节点，所以需要重新获取光标位置
       const selection: any = window.getSelection();
@@ -50,9 +55,11 @@ const handleInput = () => {
         item.removeAttribute('class')
       }
       // 去除innerHTML中的span标签，但保留内容
-      const span = item.querySelector('span')
+      const span = item.querySelectorAll('span')
       if (span) {
-        span.replaceWith(span.innerHTML)
+        span.forEach((item: any) => {
+          item.replaceWith(item.innerText)
+        })
       }
     }
   })
@@ -116,7 +123,11 @@ const handleKeyDown = (e: any) => {
       const range = selection.getRangeAt(0);
       const startContainer = range.startContainer;
       const currentLineNode = startContainer.parentNode;
-      currentLineNode?.classList?.remove?.('rule-comment')
+      const currentLineText = currentLineNode.innerText;
+      // 带有#的行，不需要移除className
+      if (currentLineNode && !/^#\s?/.test(currentLineText)) {
+          currentLineNode?.classList?.remove?.('rule-comment')
+      }
       startContainer?.removeAttribute?.('class')
     }, 0)
   }
