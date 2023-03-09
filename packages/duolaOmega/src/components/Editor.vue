@@ -1,16 +1,16 @@
 <template>
-    <div
-        ref="textareaRef"
-        class="textarea"
-        @blur="handleBlur"
-        @focus="handleFocus"
-        @keydown="handleKeyDown"
-        @input="handleInput"
-        contenteditable="true">
-    </div>
+  <div
+      ref="textareaRef"
+      class="textarea"
+      @blur="handleBlur"
+      @focus="handleFocus"
+      @keydown="handleKeyDown"
+      @input="handleInput"
+      contenteditable="true">
+  </div>
 </template>
 <script setup lang="ts">
-import { onMounted, ref, watch, nextTick, defineProps, defineEmits } from 'vue'
+import {onMounted, ref, watch, nextTick, defineProps, defineEmits} from 'vue'
 
 const props: any = defineProps({
   modelValue: String
@@ -22,12 +22,34 @@ const textareaRef = ref<any>(null)
 
 // 监听 value 值的变化
 watch(() => props.modelValue, (newValue) => {
-  isBlur.value && (textareaRef.value.innerHTML = newValue)
+  isBlur.value && (textareaRef.value.innerText = newValue)
 });
 
 const handleInput = () => {
   // 将当前编辑器的内容更新到 value 属性中，实现双向绑定
-  const newText = (textareaRef.value as HTMLDivElement).innerHTML
+  const newText = (textareaRef.value as HTMLDivElement).innerText;
+  [...textareaRef.value.childNodes].map((item: any) => {
+    if (item.nodeType === 3) { // 文本节点
+      const div = document.createElement('div')
+      div.innerHTML = item.textContent
+      return div
+    }
+    if (item.nodeType === 1) { // 元素节点
+      const t = item
+      if (/^#\s?/.test(t.innerText)) {
+        t.classList.add('rule-comment')
+      } else {
+        t.removeAttribute('class')
+      }
+      // 去除innerHTML中的span标签，但保留内容
+      const span = t.querySelector('span')
+      if (span) {
+        span.replaceWith(span.innerHTML)
+      }
+      return t
+    }
+  })
+  console.log(textareaRef.value.innerHTML, '==textareaRef.value==');
   emits('update:modelValue', newText)
 };
 const handleBlur = () => {
@@ -52,6 +74,7 @@ const handleKeyDown = (e: any) => {
     // 如果当前行已经以#开头，则移除#
     if (/^#/.test(currentLineText)) {
       const newText = currentLineText.replace(/^#\s?/, '');
+      console.log(currentLineNode, '==currentLineNode==');
       currentLineNode.innerText = newText;
       currentLineNode.removeAttribute('class')
       offset -= 2
@@ -61,7 +84,7 @@ const handleKeyDown = (e: any) => {
       if (currentLineNode === textareaRef.value) {
         if (!/^<div>/.test(currentLineNode.innerHTML)) {
           const newLineNode = document.createElement('div');
-          newLineNode.innerHTML = `# ${currentLineText}`;
+          newLineNode.innerHTML = `# ${range.startContainer.textContent}`;
           newLineNode.className = 'rule-comment'
           currentLineNode.replaceChild(newLineNode, currentLineNode.firstChild);
         }
@@ -71,8 +94,8 @@ const handleKeyDown = (e: any) => {
       }
     }
     const newRange = document.createRange();
-    newRange.setStart(currentLineNode.firstChild.firstChild ?? currentLineNode.firstChild, startOffset + offset);
-    newRange.setEnd(currentLineNode.firstChild.firstChild ?? currentLineNode.firstChild, startOffset + offset);
+    newRange.setStart(currentLineNode.firstChild.firstChild ?? currentLineNode.firstChild, Math.max(startOffset + offset, 0));
+    newRange.setEnd(currentLineNode.firstChild.firstChild ?? currentLineNode.firstChild, Math.max(startOffset + offset, 0));
     selection.removeAllRanges();
     selection.addRange(newRange);
   }
@@ -86,8 +109,6 @@ const handleKeyDown = (e: any) => {
       const range = selection.getRangeAt(0);
       const startContainer = range.startContainer;
       const currentLineNode = startContainer.parentNode;
-      console.log(currentLineNode, '==currentLineNode==', range.startContainer, '==range.startContainer==')
-      // if (currentLineNode === textareaRef.value) return
       currentLineNode?.classList?.remove?.('rule-comment')
       startContainer?.removeAttribute?.('class')
     }, 0)
@@ -111,7 +132,8 @@ onMounted(() => {
   padding: 4px;
   width: 770px;
 }
-/deep/.rule-comment {
+
+/deep/ .rule-comment {
   color: #569cd6;
 }
 </style>
