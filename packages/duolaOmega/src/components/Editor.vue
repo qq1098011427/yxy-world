@@ -6,6 +6,7 @@
       @focus="handleFocus"
       @keydown="handleKeyDown"
       @input="handleInput"
+      @paste="handlePaste"
       contenteditable="true">
   </div>
 </template>
@@ -28,25 +29,31 @@ watch(() => props.modelValue, (newValue) => {
 const handleInput = () => {
   // 将当前编辑器的内容更新到 value 属性中，实现双向绑定
   const newText = (textareaRef.value as HTMLDivElement).innerText;
-  [...textareaRef.value.childNodes].map((item: any) => {
+  [...textareaRef.value.childNodes].forEach((item: any) => {
     if (item.nodeType === 3) { // 文本节点
       const div = document.createElement('div')
       div.innerHTML = item.textContent
-      return div
+      item.replaceWith(div)
+      // 由于替换了文本节点，所以需要重新获取光标位置
+      const selection: any = window.getSelection();
+      const range = document.createRange();
+      range.selectNodeContents(div);
+      // 光标置于文本末尾
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
     }
     if (item.nodeType === 1) { // 元素节点
-      const t = item
-      if (/^#\s?/.test(t.innerText)) {
-        t.classList.add('rule-comment')
+      if (/^#\s?/.test(item.innerText)) {
+        item.classList.add('rule-comment')
       } else {
-        t.removeAttribute('class')
+        item.removeAttribute('class')
       }
       // 去除innerHTML中的span标签，但保留内容
-      const span = t.querySelector('span')
+      const span = item.querySelector('span')
       if (span) {
         span.replaceWith(span.innerHTML)
       }
-      return t
     }
   })
   console.log(textareaRef.value.innerHTML, '==textareaRef.value==');
@@ -113,8 +120,19 @@ const handleKeyDown = (e: any) => {
       startContainer?.removeAttribute?.('class')
     }, 0)
   }
+  // 由于不触发input事件，所以需要手动更新value
+  const newText = (textareaRef.value as HTMLDivElement).innerText;
+  emits('update:modelValue', newText)
 }
-
+const handlePaste = (e: any) => {
+  e.preventDefault();
+  const text = e.clipboardData.getData('text/plain');
+  const parser = new DOMParser();
+  const parsed = parser.parseFromString(text, 'text/html');
+  const plainText: any = parsed.body.textContent;
+  console.log(plainText, '==plainText==')
+  document.execCommand('insertText', false, plainText);
+}
 onMounted(() => {
   nextTick(() => {
     const textarea = textareaRef.value as HTMLDivElement;
