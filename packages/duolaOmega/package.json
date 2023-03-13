@@ -2,11 +2,13 @@
   "name": "duola-omega",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "build:watch": "pnpm run build -w",
+    "build:script": "vue-tsc && vite build --config vite.config.script.ts",
+    "batchScript": "node batchScript.js",
+    "batchScript:watch": "node batchScript.js -w",
     "preview": "vite preview"
   },
   "dependencies": {},

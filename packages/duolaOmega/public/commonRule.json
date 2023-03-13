@@ -1,0 +1,51 @@
+[{
+  "id": 1000,
+  "priority": 1,
+  "condition": {
+    "urlFilter": "*://*/*",
+    "resourceTypes": [
+      "xmlhttprequest",
+      "script",
+      "stylesheet",
+      "image",
+      "object",
+      "other",
+      "main_frame",
+      "sub_frame",
+      "websocket"
+    ]
+  },
+  "action": {
+    "type": "modifyHeaders",
+    "responseHeaders": [
+      {
+        "header": "Content-Security-Policy",
+        "operation": "remove"
+      },
+      {
+        "header": "Access-Control-Allow-Origin",
+        "operation": "set",
+        "value": "*"
+      },
+      {
+        "header": "Access-Control-Allow-Headers",
+        "operation": "set",
+        "value": "*"
+      },
+      {
+        "header": "Access-Control-Allow-Methods",
+        "operation": "set",
+        "value": "*"
+      },
+      {
+        "header": "X-Frame-Options",
+        "operation": "set",
+        "value": "DENY"
+      },
+      {
+        "header": "frame-ancestors",
+        "operation": "remove"
+      }
+    ]
+  }
+}]

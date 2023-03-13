@@ -16,7 +16,7 @@ import {onMounted, ref, watch, nextTick, defineProps, defineEmits} from 'vue'
 const props: any = defineProps({
   modelValue: String
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'onUpdateDynamicRules'])
 const content = ref<string>(props.modelValue)
 const isBlur = ref<boolean>(false)
 const textareaRef = ref<any>(null)
@@ -63,7 +63,6 @@ const handleInput = () => {
       }
     }
   })
-  console.log(textareaRef.value.innerHTML, '==textareaRef.value==');
   emits('update:modelValue', newText)
 };
 const handleBlur = () => {
@@ -72,7 +71,6 @@ const handleBlur = () => {
 const handleFocus = () => {
   isBlur.value = false
 }
-
 const handleKeyDown = (e: any) => {
   if (e.metaKey && e.key === '/') {
     e.preventDefault()
@@ -88,7 +86,6 @@ const handleKeyDown = (e: any) => {
     // 如果当前行已经以#开头，则移除#
     if (/^#/.test(currentLineText)) {
       const newText = currentLineText.replace(/^#\s?/, '');
-      console.log(currentLineNode, '==currentLineNode==');
       currentLineNode.innerText = newText;
       currentLineNode.removeAttribute('class')
       offset -= 2
@@ -115,6 +112,8 @@ const handleKeyDown = (e: any) => {
   }
   if (e.metaKey && e.key === 's') {
     e.preventDefault()
+    // 保存会触发规则更新
+    emits('onUpdateDynamicRules',  true)
   }
   if (e.key === 'Enter') {
     setTimeout(() => {
@@ -141,7 +140,6 @@ const handlePaste = (e: any) => {
   const parser = new DOMParser();
   const parsed = parser.parseFromString(text, 'text/html');
   const plainText: any = parsed.body.textContent;
-  console.log(plainText, '==plainText==')
   document.execCommand('insertText', false, plainText);
 }
 onMounted(() => {
@@ -154,14 +152,18 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .textarea {
+  position: relative;
   background-color: #1e1e1e;
   color: #d4d4d4;
   border: 1px solid #d4d4d4;
   border-radius: 4px;
   padding: 4px;
-  width: 770px;
+  height: 260px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+  white-space: nowrap;
+  z-index: 2;
 }
-
 /deep/ .rule-comment {
   color: #569cd6;
 }

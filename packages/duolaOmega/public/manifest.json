@@ -4,26 +4,37 @@
   "version": "1.0",
   "description": "SwitchyOmega similar",
   "icons": {
-    "16": "icons/icon.png",
-    "48": "icons/icon.png",
-    "128": "icons/icon.png"
+    "16": "icons/icon.jpg",
+    "48": "icons/icon.jpg",
+    "128": "icons/icon.jpg"
   },
   "permissions": [
     "tabs",
     "storage",
     "activeTab",
     "scripting",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback"
   ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "declarative_net_request" : {
+    "rule_resources" : [{
+      "id": "commonRule",
+      "enabled": true,
+      "path": "commonRule.json"
+    }]
+  },
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_icon": {
-      "16": "icons/icon.png",
-      "32": "icons/icon.png",
-      "48": "icons/icon.png",
-      "128": "icons/icon.png"
+      "16": "icons/icon.jpg",
+      "32": "icons/icon.jpg",
+      "48": "icons/icon.jpg",
+      "128": "icons/icon.jpg"
     },
     "default_title": "duolaOmega panel",
     "default_popup": "index.html"

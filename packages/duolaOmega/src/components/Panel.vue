@@ -4,22 +4,8 @@ import {onMounted, ref, reactive} from 'vue'
 defineProps<{ key?: any }>()
 
 const content = ref<any>([''])
-
-onMounted(() => {
-  // load()
-})
-
-const load = () => {
-  // 从 chrome.storage.local.get 中加载规则
-  chrome.storage.local.get('rules', (result: any) => {
-    content.value = result.rules
-  })
-}
 // 保存规则并应用
 const saveAndApplyRules = (rules: string) => {
-  // 将规则保存到 chrome.storage.local 中
-  console.log(chrome, '--chrome--')
-  chrome.storage.local.set({ rules })
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
     chrome.tabs.sendMessage(tabs[0].id, { type: 'apply-rules', rules });
   });
@@ -96,7 +82,5 @@ const handleBlur = () => {
   padding: 4px;
   width: 770px;
 }
-.line :first-of-type[line^="#"] {
-  color: blue;
-}
+
 </style>
