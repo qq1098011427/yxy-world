@@ -20,11 +20,31 @@ const emits = defineEmits(['update:modelValue', 'onUpdateDynamicRules'])
 const content = ref<string>(props.modelValue)
 const isBlur = ref<boolean>(false)
 const textareaRef = ref<any>(null)
+const isInit = ref<boolean>(false)
 
 // 监听 value 值的变化
 watch(() => props.modelValue, (newValue) => {
+  if (!isInit.value) {
+    const textarea = textareaRef.value as HTMLDivElement;
+    textarea.focus()
+    // 模拟黏贴操作
+    const dataTransfer = new DataTransfer();
+    dataTransfer.setData('text/plain', newValue);
+    const pasteEvent = new ClipboardEvent('paste', {clipboardData: dataTransfer})
+    textarea.dispatchEvent(pasteEvent)
+    // 换行
+    const range = document.getSelection()?.getRangeAt(0);
+    const currentDiv = textarea.lastChild as HTMLDivElement;
+    const newDiv = document.createElement('div');
+    const newLine = document.createElement('br');
+    newDiv.appendChild(newLine);
+    currentDiv.after(newDiv);
+    range?.setStart(newLine, 0);
+    range?.collapse(true);
+    isInit.value = true
+  }
   isBlur.value && (textareaRef.value.innerText = newValue)
-});
+})
 
 const handleInput = () => {
   // 将当前编辑器的内容更新到 value 属性中，实现双向绑定
@@ -79,6 +99,7 @@ const handleKeyDown = (e: any) => {
     const range = selection.getRangeAt(0);
     const startOffset = range.startOffset;
     const currentLineNode = range.startContainer.parentNode;
+    // console.log(range, '==range==', currentLineNode, '==currentLineNode==')
     let offset = 0
     // currentLineNode必须在textarea中，且文本框中必须有内容
     if (!textareaRef.value.contains(currentLineNode) || !textareaRef.value.innerHTML || !range.startContainer.textContent) return
@@ -116,7 +137,9 @@ const handleKeyDown = (e: any) => {
     emits('onUpdateDynamicRules',  true)
   }
   if (e.key === 'Enter') {
+    // 这里加定时器的目的是为了等待光标移动到新行, 对新行进行样式处理
     setTimeout(() => {
+      console.log(11)
       // 获取当前光标所在行
       const selection: any = window.getSelection();
       const range = selection.getRangeAt(0);
@@ -142,12 +165,6 @@ const handlePaste = (e: any) => {
   const plainText: any = parsed.body.textContent;
   document.execCommand('insertText', false, plainText);
 }
-onMounted(() => {
-  nextTick(() => {
-    const textarea = textareaRef.value as HTMLDivElement;
-    textarea.focus();
-  });
-});
 </script>
 
 <style lang="less" scoped>

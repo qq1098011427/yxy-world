@@ -13,21 +13,22 @@ import {onMounted, onUnmounted, ref} from 'vue';
 import Editor from './Editor.vue';
 // @ts-ignore
 import { sendMessage }  from '../../extensions/sendMessage.js'
+import { getChromeStorage } from '../utils.js'
 
 const content = ref<string>('');
 const isProxy = ref<boolean>(false)
 const blurEvent = ref<any>(null)
 const handleOpenProxy = async (pureSave = false) => {
-  isProxy.value = true;
   const rules = content.value.split('\n').map((item: string) => {
     const [source, target] = item.trim().split(/\s+/g)
     return {
       source,
       target
     }
-  }).filter((item: any) => item && !item.source.startsWith('#'))
-  console.log('--pureSave--:', pureSave)
+  })
+  console.log('--rules--:', rules, '--pureSave--:', pureSave)
   // 如果只是按下快捷键保存只是单纯保存规则，不需要控制代理是否被开启
+  !pureSave && (isProxy.value = true)
   const obj = pureSave ? { rules } : { rules, isProxy: isProxy.value}
   await chrome.storage.local.set(obj)
   sendMessage('updateDynamicRules')
@@ -43,9 +44,9 @@ const handleCloseProxy = async () => {
 onMounted(async () => {
   blurEvent.value = () => handleOpenProxy(true)
   window.addEventListener('blur', blurEvent.value)
-  const { rules, isProxy } = await chrome.storage.local.get()
-  content.value = rules
-  isProxy.value = isProxy
+  const { rules, isProxy: _isProxy } = await getChromeStorage()
+  content.value = rules.map((item: any) => `${item?.source || ''} ${item?.target || ''}`).join('\n')
+  isProxy.value = _isProxy
 })
 onUnmounted(() => {
   window.removeEventListener('blur', blurEvent.value);
