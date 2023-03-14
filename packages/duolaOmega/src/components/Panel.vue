@@ -20,7 +20,7 @@ const isProxy = ref<boolean>(false)
 const blurEvent = ref<any>(null)
 const handleOpenProxy = async (pureSave = false) => {
   const rules = content.value.split('\n').map((item: string) => {
-    const [source, target] = item.trim().split(/[^#]\s+/g)
+    const [source, target] = item.trim().split(/(?<=[^#])\s+/g)
     return {
       source,
       target

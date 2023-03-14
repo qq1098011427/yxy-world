@@ -38,5 +38,16 @@
     },
     "default_title": "duolaOmega panel",
     "default_popup": "index.html"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "contentScript.js"
+      ],
+      "run_at": "document_start"
+    }
+  ]
 }

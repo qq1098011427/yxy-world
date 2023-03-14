@@ -47,12 +47,14 @@ const createRedirectRule = (rule, index) => {
 // 转发规则
 const updateDynamicRules = async (rules) => {
     const addRules = rules.map((rule, index) => createRedirectRule(rule, index))
-    console.log('addRules====', addRules)
     // 开启静态规则
     await chrome.declarativeNetRequest.updateEnabledRulesets({enableRulesetIds: ["commonRule"]})
     // 注册转发规则
-    await chrome.declarativeNetRequest.updateDynamicRules({addRules});
-    chrome.action.setIcon({path: '/icons/icon.jpg'})
+    chrome.declarativeNetRequest.updateDynamicRules({addRules}, () => {
+        // 通知注入脚本
+        sendMessageTabs('updateDynamicRules', {rules})
+        chrome.action.setIcon({path: '/icons/icon.jpg'})
+    })
 }
 // 清理规则
 const clearDynamicRules = async () => {
@@ -62,6 +64,8 @@ const clearDynamicRules = async () => {
     // 禁用静态规则
     await chrome.declarativeNetRequest.updateEnabledRulesets({disableRulesetIds: staticRules})
     // 清空动态规则
-    await chrome.declarativeNetRequest.updateDynamicRules({removeRuleIds: dynamicRules.map(rule => rule.id)});
-    chrome.action.setIcon({path: '/icons/icon-disabled.jpg'})
+    chrome.declarativeNetRequest.updateDynamicRules({removeRuleIds: dynamicRules.map(rule => rule.id)}, () => {
+        sendMessageTabs('clearDynamicRules')
+        chrome.action.setIcon({path: '/icons/icon-disabled.jpg'})
+    })
 }

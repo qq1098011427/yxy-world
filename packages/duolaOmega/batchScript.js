@@ -2,6 +2,7 @@ const { spawn } = require('child_process')
 
 const scripts = {
   background: './extensions/background.js',
+  contentScript: './extensions/contentScript.js',
 }
 
 const runSpawn = (cmd, args, options = {}) => {

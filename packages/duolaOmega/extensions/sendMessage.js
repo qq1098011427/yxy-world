@@ -14,7 +14,6 @@ export const sendMessage = (command, message, callback = () => {}, from = 'conte
         callback
     )
 }
-
 export const sendMessageTabs = (command, message, callback = () => {}) => {
     if (typeof message === 'function') {
         callback = message
