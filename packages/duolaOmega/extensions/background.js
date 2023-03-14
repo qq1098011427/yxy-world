@@ -44,17 +44,40 @@ const createRedirectRule = (rule, index) => {
         }
     }
 }
-// 转发规则
+// 热更新相关
+const createSockjsNodeRule = (rule, index) => {
+    const { target } = rule
+    const {hostname, port} = new URL(target);
+    return {
+        id: 100 + index,
+        priority: 1,
+        action: {
+            type: 'redirect',
+            redirect: {
+                transform:{
+                    scheme: 'http',
+                    host: hostname,
+                    port
+                }
+            }
+        },
+        condition: {
+            urlFilter: `https://${hostname}:${port}/sockjs-node`,
+            resourceTypes: ['xmlhttprequest']
+        }
+    }
+}
 const updateDynamicRules = async (rules) => {
     const addRules = rules.map((rule, index) => createRedirectRule(rule, index))
-    // 开启静态规则
-    await chrome.declarativeNetRequest.updateEnabledRulesets({enableRulesetIds: ["commonRule"]})
+        .concat(rules.map((rule, index) => createSockjsNodeRule(rule, index)))
     // 注册转发规则
-    chrome.declarativeNetRequest.updateDynamicRules({addRules}, () => {
+    await chrome.declarativeNetRequest.updateDynamicRules({addRules}, () => {
         // 通知注入脚本
         sendMessageTabs('updateDynamicRules', {rules})
         chrome.action.setIcon({path: '/icons/icon.jpg'})
     })
+    // 开启静态规则
+    await chrome.declarativeNetRequest.updateEnabledRulesets({enableRulesetIds: ["commonRule"]})
 }
 // 清理规则
 const clearDynamicRules = async () => {
