@@ -6,7 +6,7 @@ chrome.runtime.onMessage.addListener(async (messages, sender, sendResponse) => {
     if (command === 'updateDynamicRules') {
         // 清空之前的规则
         await clearDynamicRules()
-        const r = rules.filter(item => item && !item?.source.startsWith('#')).filter(item => item?.source && item?.target)
+        const r = rules.filter(item => item && !item?.source.startsWith('#'))
         if (r?.length && isProxy) {
             hitTab(r)
         }

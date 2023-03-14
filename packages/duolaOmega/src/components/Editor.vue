@@ -172,6 +172,7 @@ const handlePaste = (e: any) => {
   position: relative;
   background-color: #1e1e1e;
   color: #d4d4d4;
+  font-size: 14px;
   border: 1px solid #d4d4d4;
   border-radius: 4px;
   padding: 4px;

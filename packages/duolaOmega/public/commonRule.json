@@ -39,13 +39,30 @@
       },
       {
         "header": "X-Frame-Options",
-        "operation": "set",
-        "value": "DENY"
+        "operation": "remove"
       },
       {
         "header": "frame-ancestors",
         "operation": "remove"
       }
     ]
+  }
+}, {
+  "id": 2000,
+  "priority": 1,
+  "condition": {
+    "urlFilter":
+    "*://*/statics/cdn/js/??react/react.production.min.js,react-dom/react-dom.production.min.js,react-router-dom/react-router-dom.min.js,moment/moment-with-locales.js,antd/antd-with-locales.min.js",
+    "resourceTypes": ["script"]
+  },
+  "action": {
+    "type": "redirect",
+    "redirect": {
+      "transform": {
+        "path": "/statics/cdn/js/",
+        "query":
+        "??react/react.development.js,react-dom/react-dom.development.js,react-router-dom/react-router-dom.min.js,moment/moment-with-locales.js,antd/antd-with-locales.min.js"
+      }
+    }
   }
 }]

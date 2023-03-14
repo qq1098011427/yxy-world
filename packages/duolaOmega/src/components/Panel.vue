@@ -1,86 +1,121 @@
-<script setup lang="ts">
-import {onMounted, ref, reactive} from 'vue'
-
-defineProps<{ key?: any }>()
-
-const content = ref<any>([''])
-// 保存规则并应用
-const saveAndApplyRules = (rules: string) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
-    chrome.tabs.sendMessage(tabs[0].id, { type: 'apply-rules', rules });
-  });
-};
-// 获取当前光标所在行的开始/结束位置
-const getLoc = (pos: number, value: string) => {
-  let start = pos;
-  while (start > 0 && value[start - 1] !== '\n') {
-    start--;
-  }
-  let end = pos;
-  while (end < value.length && value[end] !== '\n') {
-    end++;
-  }
-  return {
-    start,
-    end
-  };
-}
-const handleKeyDown = (event: EventTarget | KeyboardEvent) => {
-  if ((event as KeyboardEvent).metaKey && (event as KeyboardEvent).key === '/') {
-    (event as KeyboardEvent).preventDefault();
-    const textarea = (event as any).target;
-    let prevEnd = textarea.selectionEnd;
-    const { start, end } = getLoc(textarea.selectionEnd, textarea.value)
-    const currentLineText = textarea.value.substring(start, end);
-    let updatedLineText = '';
-    if (currentLineText.startsWith('# ')) {
-      updatedLineText = currentLineText.substring(2);
-      prevEnd -= 2;
-    } else {
-      updatedLineText = `# ${currentLineText}`;
-      prevEnd += 2;
-    }
-    const updatedCode = `${textarea.value.substring(0, start)}${updatedLineText}${textarea.value.substring(start + currentLineText.length)}`;
-    content.value = updatedCode;
-    // 设置焦点位置
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(prevEnd, prevEnd);
-    }, 0);
-  }
-  if ((event as KeyboardEvent).metaKey && (event as KeyboardEvent).key === 's') {
-    (event as KeyboardEvent).preventDefault();
-    saveAndApplyRules(content.value);
-  }
-}
-// textarea 失去焦点时保存规则
-const handleBlur = () => {
-  saveAndApplyRules(content.value);
-}
-</script>
-
 <template>
-  <div>
-    <textarea
-      v-model="content"
-      class="textarea"
-      placeholder="请输入内容"
-      rows="10"
-      cols="30"
-      @blur="handleBlur"
-      @keydown="handleKeyDown"
-    ></textarea>
+  <div :class="`editor ${isProxy ? 'encircle': ''}`">
+    <Editor v-model="content" @onUpdateDynamicRules="handleOpenProxy"></Editor>
+    <div class="switch-btn">
+      <div v-if="isProxy" class="switch-btn__text" @click="handleCloseProxy">关闭</div>
+      <div v-else class="switch-btn__text" @click="handleOpenProxy(false)">开启</div>
+    </div>
   </div>
 </template>
 
-<style lang="less" scoped>
-.textarea {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  border: 1px solid #d4d4d4;
-  border-radius: 4px;
-  padding: 4px;
-  width: 770px;
+<script setup lang="ts">
+import {onMounted, onUnmounted, ref} from 'vue';
+import Editor from './Editor.vue';
+// @ts-ignore
+import { sendMessage }  from '../../extensions/sendMessage.js'
+import { getChromeStorage } from '../utils.js'
+
+const content = ref<string>('');
+const isProxy = ref<boolean>(false)
+const blurEvent = ref<any>(null)
+const handleOpenProxy = async (pureSave = false) => {
+  const rules = content.value.split('\n').map((item: string) => {
+    const [source, target] = item.trim().split(/[^#]\s+/g)
+    return {
+      source,
+      target
+    }
+  }).filter(item => item?.source && item?.target)
+  // console.log('--rules--:', rules, '--pureSave--:', pureSave)
+  // 如果只是按下快捷键保存只是单纯保存规则，不需要控制代理是否被开启
+  !pureSave && (isProxy.value = true)
+  const obj = pureSave ? { rules } : { rules, isProxy: isProxy.value}
+  await chrome.storage.local.set(obj)
+  sendMessage('updateDynamicRules')
 }
 
+const handleCloseProxy = async () => {
+  isProxy.value = false;
+  const obj = await chrome.storage.local.get()
+  await chrome.storage.local.set({ ...obj, isProxy: isProxy.value })
+  sendMessage('clearDynamicRules')
+};
+
+onMounted(async () => {
+  const { rules, isProxy: _isProxy } = await getChromeStorage()
+  content.value = rules.map((item: any) => `${item?.source || ''} ${item?.target || ''}`).join('\n')
+  isProxy.value = _isProxy
+})
+</script>
+<style lang="less" scoped>
+.editor {
+  position: relative;
+  width: 770px;
+  z-index: 1;
+}
+.encircle {
+  position: relative;
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 3px;
+    border: 4px solid rgba(0, 255, 255, 0.87);
+    animation: opacity 3s ease-in infinite;
+    z-index: 1;
+  }
+  &:before {
+    animation-delay: 0s;
+  }
+  &:after {
+    animation-delay: 1.5s;
+    box-shadow: 0 0 30px 10px rgba(0, 255, 255, 0.87);
+  }
+}
+.switch-btn {
+  position: absolute;
+  width: 100px;
+  height: 50px;
+  background: #3d87c459;
+  transform: rotate(180deg);
+  border-radius: 0 0 50px 50px;
+  bottom: 3px;
+  left: 350px;
+  display: flex;
+  cursor: pointer;
+  border: 2px solid #d4d4d4;
+  z-index: 2;
+  &__text {
+    color: #d4d4d4;
+    font-size: 18px;
+    font-family: "Yuanti SC";
+    text-align: center;
+    line-height: 50px;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    transform: rotate(180deg);
+  }
+}
+@keyframes opacity {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 </style>
