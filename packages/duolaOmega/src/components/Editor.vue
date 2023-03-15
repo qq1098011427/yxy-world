@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {onMounted, ref, watch, nextTick, defineProps, defineEmits} from 'vue'
+import {ref, watch, defineProps, defineEmits} from 'vue'
 
 const props: any = defineProps({
   modelValue: String
