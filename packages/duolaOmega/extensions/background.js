@@ -40,7 +40,7 @@ const createRedirectRule = (rule, index) => {
         },
         condition: {
             urlFilter: source,
-            resourceTypes: ['script']
+            resourceTypes: ['script', 'xmlhttprequest', 'image']
         }
     }
 }
@@ -48,6 +48,7 @@ const createRedirectRule = (rule, index) => {
 const createSockjsNodeRule = (rule, index) => {
     const { target } = rule
     const {hostname, port} = new URL(target);
+    if (!port) return
     return {
         id: 100 + index,
         priority: 1,
@@ -70,6 +71,7 @@ const createSockjsNodeRule = (rule, index) => {
 const updateDynamicRules = async (rules) => {
     const addRules = rules.map((rule, index) => createRedirectRule(rule, index))
         .concat(rules.map((rule, index) => createSockjsNodeRule(rule, index)))
+        .filter(item => item)
     // 注册转发规则
     await chrome.declarativeNetRequest.updateDynamicRules({addRules}, () => {
         // 通知注入脚本
