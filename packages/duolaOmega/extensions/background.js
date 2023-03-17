@@ -47,7 +47,8 @@ const createRedirectRule = (rule, index) => {
 // 热更新相关
 const createSockjsNodeRule = (rule, index) => {
     const { target } = rule
-    const {hostname, port} = new URL(target);
+    const {protocol, hostname, port} = new URL(target);
+    const targetProtocol = protocol.replace(':', '')
     if (!port) return
     return {
         id: 100 + index,
@@ -56,7 +57,7 @@ const createSockjsNodeRule = (rule, index) => {
             type: 'redirect',
             redirect: {
                 transform:{
-                    scheme: 'http',
+                    scheme: targetProtocol,
                     host: hostname,
                     port
                 }
