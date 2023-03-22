@@ -14,6 +14,7 @@ export const sendMessage = (command, message, callback = () => {}, from = 'conte
         callback
     )
 }
+
 // background/popup -> contentScript
 export const sendMessageTabs = (command, message, callback = () => {}) => {
     if (typeof message === 'function') {
