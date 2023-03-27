@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
-const esbuild = require('esbuild')
+// @ts-ignore
+import esbuild from 'esbuild'
 // electron-builder 必须是 commonjs 模块
 const builder = require('electron-builder');
 

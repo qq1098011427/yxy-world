@@ -1,5 +1,6 @@
 import {ViteDevServer} from 'vite'
-const esbuild = require('esbuild')
+// @ts-ignore
+import esbuild from 'esbuild'
 const {spawn} = require('child_process')
 
 const devElectron = () => {

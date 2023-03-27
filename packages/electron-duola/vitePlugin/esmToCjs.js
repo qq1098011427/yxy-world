@@ -120,7 +120,7 @@ export const getReplacer = () => {
         });
     }
     result["electron"] = () => {
-        let electronModules = ["clipboard", "ipcRenderer", "nativeImage", "shell", "webFrame"].join(",");
+        let electronModules = ["clipboard", "ipcRenderer", "nativeImage", "shell", "webFrame", "remote"].join(",");
         return {
             find: new RegExp(`^electron$`),
             code: `const {${electronModules}} = require('electron');export {${electronModules}}`,
