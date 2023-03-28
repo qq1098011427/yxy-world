@@ -6,17 +6,17 @@
         <Search />
       </div>
       <div class="header-right">
-        <div class="avatar" ></div>
+        <Avatar />
       </div>
     </div>
   </header>
 </template>
 <script setup lang="ts">
 import Search from "./Search.vue";
+import Avatar from "./Avatar.vue";
 </script>
 <style lang="less" scoped>
 @header-height: 42px;
-@primary-color: #007bff;
 @bg-color: rgb(66, 76, 102);
 header {
   width: 100%;
@@ -51,12 +51,5 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-  .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: @primary-color;
-    margin-right: 5px;
-  }
 }
 </style>

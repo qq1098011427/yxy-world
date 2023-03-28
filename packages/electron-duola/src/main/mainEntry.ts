@@ -1,6 +1,7 @@
 import { app, BrowserWindow } from 'electron';
 import { CustomScheme } from './CustomScheme'
 import { CommonWindowEvent } from './CommonWindowEvent'
+// import { createSqlite3 } from './createSqlite3'
 
 process.env.ELECTRON_DISABLE_SECURITY_WARNINGS = 'true';
 let mainWindow: BrowserWindow | null = null;
@@ -27,6 +28,7 @@ app.whenReady().then(() => {
         }
     }
     mainWindow = new BrowserWindow(config)
+    // createSqlite3()
     if (process.argv[2]) {
         mainWindow.loadURL(process.argv[2])
     } else {

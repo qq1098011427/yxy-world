@@ -8,6 +8,12 @@ interface IUserInfo {
 }
 
 export const useUserInfo = defineStore('userInfo', () => {
-  let data: Ref<IUserInfo | {}> = ref({});
-  return { data };
+  const data: Ref<IUserInfo | {}> = ref({
+      id: Math.random() * 99,
+      name: '默认'
+  });
+  const setData = (newData: IUserInfo) => {
+      data.value = newData;
+  }
+  return { data, setData };
 });
