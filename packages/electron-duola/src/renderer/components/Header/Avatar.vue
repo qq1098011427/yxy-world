@@ -3,14 +3,14 @@
 </template>
 <script lang="ts" setup>
 import { useUserInfo } from '../../store/useUserInfo'
-import prisma from "../../../common/db";
+// import prisma from "../../../common/db";
 import {onMounted} from "vue";
 
 const userInfo = useUserInfo()
 
 onMounted(async () => {
-  const user = await prisma.user.findMany()
-  userInfo.setData(user[0])
+  // const user = await prisma.user.findMany()
+  // userInfo.setData(user[0])
 })
 </script>
 <style lang="less" scoped>
