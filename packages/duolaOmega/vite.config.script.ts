@@ -12,7 +12,7 @@ export default defineConfig({
                 dir: 'dist',
                 entryFileNames: '[name].js',
                 format: 'commonjs'
-            },
+            }
         }
     }
 })

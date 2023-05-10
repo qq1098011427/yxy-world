@@ -51,7 +51,7 @@
   "priority": 1,
   "condition": {
     "urlFilter":
-    "*://*/statics/cdn/js/??react/react.production.min.js,react-dom/react-dom.production.min.js,react-router-dom/react-router-dom.min.js,moment/moment-with-locales.js,antd/antd-with-locales.min.js",
+    "*://*/statics/cdn/js/??react/react.production.min.js,react-dom/react-dom.production.min.js,react-router-dom/react-router-dom.min.js,moment/moment-with-locales.js,dayjs/dayjs.min.js",
     "resourceTypes": ["script"]
   },
   "action": {
@@ -60,7 +60,7 @@
       "transform": {
         "path": "/statics/cdn/js/",
         "query":
-        "??react/react.development.js,react-dom/react-dom.development.js,react-router-dom/react-router-dom.min.js,moment/moment-with-locales.js,antd/antd-with-locales.min.js"
+        "??react/react.development.js,react-dom/react-dom.development.js,react-router-dom/react-router-dom.min.js,moment/moment-with-locales.js,dayjs/dayjs.min.js"
       }
     }
   }

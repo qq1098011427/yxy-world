@@ -28,6 +28,7 @@ async function run() {
       }
     })
   }
+    console.log(process.env.VITE_INPUT, '===VITE_INPUT===')
 }
 
 run()

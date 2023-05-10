@@ -17,6 +17,8 @@ import { getChromeStorage } from '../utils.js'
 
 const content = ref<string>('');
 const isProxy = ref<boolean>(false)
+
+
 const handleOpenProxy = async (pureSave = false) => {
   const rules = content.value.split('\n').map((item: string) => {
     const [source, target] = item.trim().split(/(?<=[^#])\s+/g)

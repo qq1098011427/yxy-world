@@ -10,8 +10,8 @@ chrome.runtime.onMessage.addListener(async (messages, sender, sendResponse) => {
         // 控制台打印内容与dom特效
         jsConfetti.addConfetti({
             emojis: ['🌈', '⚡️', '💥', '✨', '💫', '🌸'],
-            emojiSize: 20,
-            confettiNumber: 500
+            emojiSize: 10,
+            confettiNumber: 20
         })
         setTimeout(jsConfetti.clearCanvas, 1000)
         console.log('%c duolaOmega:转发成功 ', 'color: #fff; background: #27c777; padding: 5px; border-radius: 5px;')

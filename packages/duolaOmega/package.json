@@ -6,8 +6,8 @@
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "build:watch": "pnpm run build -w",
-    "build:script": "vue-tsc && vite build --config vite.config.script.ts",
     "batchScript": "node batchScript.js",
+    "build:script": "vue-tsc && vite build --config vite.config.script.ts",
     "preview": "vite preview"
   },
   "dependencies": {},
